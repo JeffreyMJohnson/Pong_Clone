@@ -22,8 +22,6 @@ public class HandleGoalTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("trigger fired.");
-
         if (_managerScript != null)
         {
             _managerScript.AddScore(IsPlayerOne);

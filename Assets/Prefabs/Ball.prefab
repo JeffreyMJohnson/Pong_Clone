@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4568789201113766}
   - component: {fileID: 212848463392508436}
   - component: {fileID: 61990073307867438}
-  - component: {fileID: 114622545160537026}
   - component: {fileID: 50656600518730744}
   m_Layer: 0
   m_Name: Ball
@@ -88,18 +87,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.23, y: 0.25}
   m_EdgeRadius: 0
---- !u!114 &114622545160537026
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1218493117162842}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1849435da9103140b05d987287d879a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 2
 --- !u!212 &212848463392508436
 SpriteRenderer:
   m_ObjectHideFlags: 1

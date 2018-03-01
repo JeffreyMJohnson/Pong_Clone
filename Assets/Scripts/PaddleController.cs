@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class PaddleController : MonoBehaviour
@@ -10,7 +11,11 @@ public class PaddleController : MonoBehaviour
     public float MinY;
 
     public bool IsLeftPaddle;
-	
+
+    void Start()
+    {
+    }
+
 	// Update is called once per frame
 	void Update ()
 	{
