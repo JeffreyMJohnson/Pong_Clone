@@ -110,7 +110,8 @@ public class GameManager : MonoBehaviour
         // going to spawn at origin with random direction 
 
         Vector3 spawnPoint = Vector3.zero;
-        Vector2 force = new Vector2(Random.Range(0f,1), Random.Range(0f, 1));
+        Vector2 force = new Vector2(Random.Range(-1f,1), Random.Range(-1f, 1));
+        force.Normalize();
         force *= ServeForce;
 
         _ball = Instantiate(BallPreFab, spawnPoint, Quaternion.identity);
