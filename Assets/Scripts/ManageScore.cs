@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ManageScore : MonoBehaviour
 {
-    public uint ScoretoWin;
+    
     public Text PlayerOneScoreText;
     public Text PlayerTwoScoreText;
+    public bool? PlayerOneIsWinner { get; private set; }
 
     private uint _playerOneScore = 0;
     private uint _playerTwoScore = 0;
@@ -23,13 +25,22 @@ public class ManageScore : MonoBehaviour
             ++_playerTwoScore;
         }
 
+        if (_playerOneScore == GameManager.Instance().ScoretoWin ||
+            _playerTwoScore == GameManager.Instance().ScoretoWin)
+        {
+            PlayerOneIsWinner = _playerOneScore > _playerTwoScore;
+        }
+
         UpdateScoreText();
+
+        GameManager.Instance().ChangeGameState(GameManager.GameState.Score);
     }
 
     public void ResetScore()
     {
         _playerOneScore = 0;
         _playerTwoScore = 0;
+        PlayerOneIsWinner = null;
         UpdateScoreText();
     }
 

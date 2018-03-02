@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
+using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,9 +19,11 @@ public class GameManager : MonoBehaviour
     }
 
     public float ServeForce;
+    public uint ScoretoWin;
 
     public GameObject StartMenuPreFab;
     public GameObject BallPreFab;
+    public GameObject WinUIPreFab;
     public GameState CurrentGameState { get; private set; }
 
     public static GameManager Instance()
@@ -38,35 +40,52 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log(string.Format("Set state to {0}.", newState.ToString()));
+        CurrentGameState = newState;
 
         switch (newState)
         {
             case GameState.Start:
                LoadStartMenu();
+                //button event changes to next state
                 break;
             case GameState.Serve:
+                
                 ServeBall();
-
                 ChangeGameState(GameState.Play);
                 break;
             case GameState.Play:
+                //score manager changes to next state
+                break;
             case GameState.Score:
+                Destroy(_ball);
+                _ball = null;
+                ChangeGameState(_scoreManager.PlayerOneIsWinner != null ? GameState.Win : GameState.Serve);
+                break;
             case GameState.Win:
+                OpenWinUI();
+                //button changes to next state
                 break;
         }
 
-        CurrentGameState = newState;
+        
     }
+
+
     
     private static GameManager _instance;
+    private ManageScore _scoreManager;
     private GameObject _startMenu;
     private GameObject _ball;
+    private GameObject _winUI;
 
 	// Use this for initialization
 	void Start ()
 	{
 	    CurrentGameState = GameState.None;
 	    _instance = this;
+
+	    _scoreManager = GetComponentInChildren<ManageScore>();
+        Assert.IsNotNull(_scoreManager);
 
 	    ChangeGameState(GameState.Start);
 	}
@@ -120,5 +139,45 @@ public class GameManager : MonoBehaviour
         Assert.IsNotNull(rb);
         Debug.Log(string.Format("Adding force of {0} to ball.", force.ToString()));
         rb.AddForce(force, ForceMode2D.Impulse);
+    }
+
+    private void OpenWinUI()
+    {
+        Assert.IsNull(_winUI);
+        Assert.IsTrue(_scoreManager.PlayerOneIsWinner.HasValue);
+
+        Debug.Log(string.Format("{0} won!", _scoreManager.PlayerOneIsWinner.Value ? "Player One" : "Player Two"));
+
+        _winUI = Instantiate(WinUIPreFab);
+        Button confirmButton = _winUI.GetComponentInChildren<Button>();
+        Assert.IsNotNull(confirmButton);
+        confirmButton.onClick.AddListener(HandleWinUIConfirm);
+
+        foreach (var text in _winUI.GetComponentsInChildren<Text>())
+        {
+            if (text.tag == "RuntimeEditable")
+            {
+                text.text = _scoreManager.PlayerOneIsWinner.Value ? "One" : "Two";
+            }
+        }
+
+    }
+
+    private void CloseWinUI()
+    {
+        Assert.IsNotNull(_winUI);
+
+        Button confirmButton = _winUI.GetComponentInChildren<Button>();
+        Assert.IsNotNull(confirmButton);
+        confirmButton.onClick.RemoveListener(HandleWinUIConfirm);
+        Destroy(_winUI);
+        _winUI = null;
+    }
+
+    private void HandleWinUIConfirm()
+    {
+        CloseWinUI();
+        _scoreManager.ResetScore();
+        ChangeGameState(GameState.Start);
     }
 }
