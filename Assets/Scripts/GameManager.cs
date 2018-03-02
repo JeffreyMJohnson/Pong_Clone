@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Assertions;
+﻿using UnityEngine.Assertions;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +37,6 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(string.Format("Set state to {0}.", newState.ToString()));
         CurrentGameState = newState;
 
         switch (newState)
@@ -137,7 +134,6 @@ public class GameManager : MonoBehaviour
         Rigidbody2D rb = _ball.GetComponent<Rigidbody2D>();
 
         Assert.IsNotNull(rb);
-        Debug.Log(string.Format("Adding force of {0} to ball.", force.ToString()));
         rb.AddForce(force, ForceMode2D.Impulse);
     }
 
@@ -145,8 +141,6 @@ public class GameManager : MonoBehaviour
     {
         Assert.IsNull(_winUI);
         Assert.IsTrue(_scoreManager.PlayerOneIsWinner.HasValue);
-
-        Debug.Log(string.Format("{0} won!", _scoreManager.PlayerOneIsWinner.Value ? "Player One" : "Player Two"));
 
         _winUI = Instantiate(WinUIPreFab);
         Button confirmButton = _winUI.GetComponentInChildren<Button>();

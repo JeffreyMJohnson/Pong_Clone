@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ManageScore : MonoBehaviour

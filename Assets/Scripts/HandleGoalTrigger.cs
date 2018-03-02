@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HandleGoalTrigger : MonoBehaviour
 {
@@ -14,11 +12,6 @@ public class HandleGoalTrigger : MonoBehaviour
 	{
 	    	_managerScript = gameObject.GetComponentInParent<ManageScore>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	    	
-	}
 
     void OnTriggerExit2D(Collider2D other)
     {
